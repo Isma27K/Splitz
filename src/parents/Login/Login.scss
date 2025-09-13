@@ -1,0 +1,65 @@
+.login-page {
+  background-color: white;
+  font-family: Arial, Helvetica, sans-serif;
+
+  display: flex;                /* make page a flexbox */
+  justify-content: center;      /* center horizontally */
+  align-items: center;          /* center vertically */
+  min-height: 100vh;            /* take full viewport height */
+
+  .login-card {
+    width: 400px;
+    padding: 20px;
+    background-color: rgb(223, 220, 220);
+    box-shadow: 0 2px 8px rgba(80, 78, 78, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgb(177, 168, 168);
+
+    display: flex;
+    flex-direction: column;     /* stack children vertically */
+    gap: 16px;                  /* add spacing between children */
+  }
+
+  .login-title {
+    text-align: center;
+    margin-bottom: 12px;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .btn {
+    padding: 10px;
+    background: black;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .error {
+    color: red;
+    font-size: 14px;
+    text-align: center;
+  }
+
+    .login-help a {
+        color: black;
+        text-decoration: none;
+        margin-top: 8px;
+    }
+
+    .login-help a:hover {
+        text-decoration: underline;
+    }
+
+}

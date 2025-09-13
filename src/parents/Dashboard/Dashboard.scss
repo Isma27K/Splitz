@@ -1,0 +1,45 @@
+.dashboard {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  background: #f9fafb; // light gray background instead of #181818
+  color: #222; // dark text for readability
+}
+
+/* Sidebar always sticks on the left */
+.dashboard .sidepanel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+}
+
+/* Push main content so it doesn’t overlap sidebar */
+.dashboard-content {
+  flex: 1;
+  margin-left: 200px; // matches expanded sidebar width
+  padding: 24px;
+  overflow-y: auto;
+  background: #ffffff; // white card-like background
+  border-left: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 0; // keep flat since it’s full content
+  box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.02);
+}
+
+/* When sidebar is collapsed */
+.sidepanel.collapsed ~ .dashboard-content {
+  margin-left: 72px;
+}
+
+/* Headings */
+.dashboard-content h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #111;
+}
+
+.dashboard-content p {
+  font-size: 16px;
+  color: #444;
+}
