@@ -11,7 +11,8 @@ const __dirname = dirname(__filename);
 
 
 // ===== import ipc ========
-import {registerAuthHandlers} from "./ipc/auth/login.ts";
+import {registerAuthHandlers} from "./ipc/auth/auth.ts";
+import {registerIsFirstTimeHandler} from "./ipc/auth/firstLogin.ts";
 // ======= end ipc =========
 
 
@@ -38,7 +39,6 @@ process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL ? path.join(process.env.APP_ROOT, 
 
 let win: BrowserWindow | null
 
-console.log(__dirname)
 
 function createWindow() {
   win = new BrowserWindow({
@@ -114,5 +114,5 @@ app.whenReady().then(() => {
 
   // ======= register IPC here =============
   registerAuthHandlers()
-
+  registerIsFirstTimeHandler()
 })

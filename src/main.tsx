@@ -1,35 +1,53 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import {BrowserRouter, Route, Routes} from "react-router-dom";
-import { isFirstTime } from './utils/firstLogin.ts'
+import React, { useEffect, useState } from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import './index.css'
-
+import "./index.css";
 
 // ========= Page =========
 import LoginPage from "./app/Login/Login.page.tsx";
-
-import welcomePage from './app/firstSetup/welcome.page.tsx'
+import WelcomePage from "./app/firstSetup/welcome.page.tsx"; // PascalCase
 //========================
 
+declare global {
+    interface Window {
+        auth: {
+            isFirstTime: () => Promise<boolean>;
+        };
+    }
+}
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-      <BrowserRouter>
-        <Routes>
-            {isFirstTime() ? (
-                <Route path="/" Component={welcomePage} /> // TODO: should lead us to first time setup
-            ): (
-                <Route path="/" Component={LoginPage} />
-            )}
-        </Routes>
-      </BrowserRouter>
-  </React.StrictMode>,
-)
 
-// // Use contextBridge
-// if (window.ipcRenderer) {
-//   window.ipcRenderer.on('main-process-message', (_event, message) => {
-//     console.log(message)
-//   })
-// }
+function App() {
+    const [loading, setLoading] = useState(true);
+    const [firstTime, setFirstTime] = useState(false);
+
+    useEffect(() => {
+        const checkFirstTime = async () => {
+            const result = await window.auth.isFirstTime();
+            setFirstTime(result);
+            setLoading(false);
+        };
+        checkFirstTime();
+    }, []);
+
+    if (loading) return <div>Loading...</div>;
+
+    return (
+        <BrowserRouter>
+            <Routes>
+                {firstTime ? (
+                    <Route path="/" Component={WelcomePage} />
+                ) : (
+                    <Route path="/" Component={LoginPage} />
+                )}
+            </Routes>
+        </BrowserRouter>
+    );
+}
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>
+);
