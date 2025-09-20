@@ -1,4 +1,4 @@
-import { ipcRenderer, contextBridge } from 'electron'
+import {contextBridge, ipcRenderer} from 'electron'
 
 // // --------- Expose some API to the Renderer process ---------
 // contextBridge.exposeInMainWorld('ipcRenderer', {
@@ -24,5 +24,5 @@ import { ipcRenderer, contextBridge } from 'electron'
 // })
 
 contextBridge.exposeInMainWorld("electron", {
-  sendLogin: (email: string, password: string) => ipcRenderer.send("login", { email, password })
+  sendLogin: (email: string, password: string) => ipcRenderer.send("login", { email, password }),
 })

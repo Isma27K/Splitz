@@ -1,9 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { BrowserRouter, Routes, Route} from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import { isFirstTime } from './utils/firstLogin.ts'
+
 import './index.css'
 
-import { isFirstTime } from './utils/firstLogin'
 
 // ========= Page =========
 import LoginPage from "./app/Login/Login.page.tsx";

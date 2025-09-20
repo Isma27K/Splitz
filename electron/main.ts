@@ -1,7 +1,13 @@
 import { app, BrowserWindow } from 'electron'
 // import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
+import { dirname } from 'node:path';
 import path from 'node:path'
+// import {initDB} from './database/db.ts'
+
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 
 // ===== import ipc ========
@@ -10,7 +16,7 @@ import {registerAuthHandlers} from "./ipc/auth/login.ts";
 
 
 // const require = createRequire(import.meta.url)
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
+// const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 // The built directory structure
 //
@@ -103,6 +109,7 @@ app.on('activate', () => {
 })
 
 app.whenReady().then(() => {
+  // await initDB()
   createWindow()
 
   // ======= register IPC here =============
