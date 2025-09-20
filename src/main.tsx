@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 
 import "./index.css";
 
@@ -34,7 +34,7 @@ function App() {
     if (loading) return <div>Loading...</div>;
 
     return (
-        <BrowserRouter>
+        <HashRouter>
             <Routes>
                 {firstTime ? (
                     <Route path="/" Component={WelcomePage} />
@@ -42,7 +42,7 @@ function App() {
                     <Route path="/" Component={LoginPage} />
                 )}
             </Routes>
-        </BrowserRouter>
+        </HashRouter>
     );
 }
 

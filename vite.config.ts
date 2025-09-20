@@ -13,8 +13,7 @@ export default defineConfig({
           build: {
             rollupOptions: {
               external: [
-                '@prisma/client',
-                '.prisma/client/default'
+                'better-sqlite3'
               ],
             },
           },

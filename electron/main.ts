@@ -3,12 +3,10 @@ import { app, BrowserWindow } from 'electron'
 import { fileURLToPath } from 'node:url'
 import { dirname } from 'node:path';
 import path from 'node:path'
-// import {initDB} from './database/db.ts'
-
+import { initializeDatabase, isDatabaseInitialized, closeDatabase } from './database';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-
 
 // ===== import ipc ========
 import {registerAuthHandlers} from "./ipc/auth/auth.ts";
@@ -55,8 +53,24 @@ function createWindow() {
 
   // Test active push message to Renderer-process.
   win.webContents.on('did-finish-load', () => {
+    console.log('Renderer finished loading');
     win?.webContents.send('main-process-message', (new Date).toLocaleString())
   })
+
+  // Listen for renderer process crashes
+  win.webContents.on('render-process-gone', (_event, details) => {
+    console.error('Renderer process crashed:', details);
+  });
+
+  // Listen for unresponsive renderer
+  win.on('unresponsive', () => {
+    console.error('Renderer process became unresponsive');
+  });
+
+  // Listen for console messages from renderer
+  win.webContents.on('console-message', (_event, level, message, _line, _sourceId) => {
+    console.log(`Renderer console [${level}]:`, message);
+  });
 
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL)
@@ -95,6 +109,7 @@ function createWindow() {
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
+    closeDatabase();
     app.quit()
     win = null
   }
@@ -109,7 +124,16 @@ app.on('activate', () => {
 })
 
 app.whenReady().then(() => {
-  // await initDB()
+  // Initialize database
+  try {
+    if (!isDatabaseInitialized()) {
+      initializeDatabase();
+    }
+    console.log('Database initialized successfully');
+  } catch (error) {
+    console.error('Failed to initialize database:', error);
+  }
+  
   createWindow()
 
   // ======= register IPC here =============
