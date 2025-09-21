@@ -37,6 +37,8 @@ export const MAIN_DIST = path.join(process.env.APP_ROOT, 'dist-electron')
 export const RENDERER_DIST = path.join(process.env.APP_ROOT, 'dist')
 
 process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL ? path.join(process.env.APP_ROOT, 'public') : RENDERER_DIST
+const isDev = process.env.NODE_ENV === "development"
+
 
 let win: BrowserWindow | null
 
@@ -130,6 +132,12 @@ app.whenReady().then(async () => {
   try {
     if (!AppDataSource.isInitialized) {
       await AppDataSource.initialize();
+
+
+      if (!isDev) {
+        await AppDataSource.runMigrations()
+      }
+
       console.log('Database initialized successfully');
     }
   } catch (error) {

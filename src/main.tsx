@@ -16,7 +16,10 @@ declare global {
     interface Window {
         auth: {
             isFirstTime: () => Promise<boolean>;
-            createUser: (name: string, email: string, password: string) => Promise<{success: boolean, userId?: number, error?: string}>;
+            createUser: (
+                name: string,
+                password: string
+            ) => Promise<{ success: boolean; userId?: number; error?: string }>;
         };
     }
 }
@@ -56,6 +59,13 @@ function App() {
                 ) : (
                     <Route path="/" Component={LoginPage} />
                 )}
+                <Route path="/dashboard" Component={() => {
+                    return (
+                        <div>
+                            dashboard
+                        </div>
+                    )
+                }} />
             </Routes>
         </HashRouter>
     );

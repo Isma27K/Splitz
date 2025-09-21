@@ -8,6 +8,20 @@ import {motion} from "motion/react"
 import Confetti from 'react-confetti'
 import {useWindowSize} from 'react-use'
 import PasswordStrengthBar from 'react-password-strength-bar';
+import {useNavigate} from "react-router-dom";
+
+
+
+// declare global {
+//     interface Window {
+//         auth: {
+//             createUser: (
+//                 name: string,
+//                 password: string
+//             ) => Promise<{ success: boolean; userId?: number; error?: string }>;
+//         };
+//     }
+// }
 
 
 
@@ -18,9 +32,10 @@ function WelcomePage() {
     const [isError, setError] = useState(false)
     const [message, setMessage] = useState('')
     const { width, height } = useWindowSize()
+    const nav = useNavigate()
 
 
-    const handleSubmit = (e: { preventDefault: () => void; }) => {
+    const handleSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
         if (!username.trim() || !password.trim()) {
             setError(true);
@@ -37,6 +52,14 @@ function WelcomePage() {
         // Clear any previous errors
         setError(false);
         setMessage('');
+
+        const result = await window.auth.createUser(username, password).then()
+
+        console.log(result.success)
+
+        if (result.success) {
+            nav('/dashboard')
+        }
 
         // Handle login logic here
         console.log('Sign Up attempt:', { username, password });
