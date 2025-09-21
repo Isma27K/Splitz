@@ -6,7 +6,8 @@ import "./index.css";
 
 // ========= Page =========
 import LoginPage from "./app/Login/Login.page.tsx";
-import WelcomePage from "./app/firstSetup/welcome.page.tsx"; // PascalCase
+import WelcomePage from "./app/firstSetup/welcomePage.tsx";
+import {ThemeProvider} from "./components/theme-provider.tsx"; // PascalCase
 //========================
 
 declare global {
@@ -48,6 +49,8 @@ function App() {
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
-        <App />
+        <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+            <App />
+        </ThemeProvider>
     </React.StrictMode>
 );
