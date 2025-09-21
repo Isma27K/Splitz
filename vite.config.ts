@@ -13,7 +13,26 @@ export default defineConfig({
           build: {
             rollupOptions: {
               external: [
-                'better-sqlite3'
+                'better-sqlite3',
+                'typeorm',
+                'reflect-metadata',
+                // TypeORM optional dependencies
+                'ioredis',
+                'redis',
+                'sql.js',
+                'sqlite3',
+                'mysql',
+                'mysql2',
+                'pg',
+                'pg-native',
+                'oracledb',
+                'mssql',
+                'mongodb',
+                'hdb-pool',
+                'spanner',
+                'react-native-sqlite-storage',
+                '@sap/hana-client',
+                'cockroachdb'
               ],
             },
           },
@@ -27,7 +46,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      // '@': path.resolve(__dirname, './src'),
+      '@': path.resolve(__dirname, './src'),
     },
   },
 })

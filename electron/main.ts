@@ -3,15 +3,18 @@ import { app, BrowserWindow } from 'electron'
 import { fileURLToPath } from 'node:url'
 import { dirname } from 'node:path';
 import path from 'node:path'
-import { initializeDatabase, isDatabaseInitialized, closeDatabase } from './database';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // ===== import ipc ========
-import {registerAuthHandlers} from "./ipc/auth/auth.ts";
-import {registerIsFirstTimeHandler} from "./ipc/auth/firstLogin.ts";
+import {registerAuthHandlers} from "./ipc/auth/auth.js";
+import {registerIsFirstTimeHandler} from "./ipc/auth/firstLogin.js";
 // ======= end ipc =========
+
+// ===== import database ========
+import { AppDataSource } from "./database/db.js";
+// ======= end database =========
 
 
 // const require = createRequire(import.meta.url)
@@ -109,7 +112,6 @@ function createWindow() {
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
-    closeDatabase();
     app.quit()
     win = null
   }
@@ -123,17 +125,17 @@ app.on('activate', () => {
   }
 })
 
-app.whenReady().then(() => {
-  // Initialize database
+app.whenReady().then(async () => {
+  // Initialize database first
   try {
-    if (!isDatabaseInitialized()) {
-      initializeDatabase();
+    if (!AppDataSource.isInitialized) {
+      await AppDataSource.initialize();
+      console.log('Database initialized successfully');
     }
-    console.log('Database initialized successfully');
   } catch (error) {
-    console.error('Failed to initialize database:', error);
+    console.error('Database initialization failed:', error);
   }
-  
+
   createWindow()
 
   // ======= register IPC here =============

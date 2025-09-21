@@ -3,7 +3,7 @@
   "description": "Splitz",
   "author": "Isma27K",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -31,9 +31,11 @@
     "react-password-strength-bar": "^0.4.1",
     "react-router-dom": "^7.9.1",
     "react-use": "^17.6.0",
+    "reflect-metadata": "^0.2.2",
     "rxdb": "^16.19.0",
     "rxjs": "^7.8.2",
-    "tailwind-merge": "^3.3.1"
+    "tailwind-merge": "^3.3.1",
+    "typeorm": "^0.3.27"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.13",

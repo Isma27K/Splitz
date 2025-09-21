@@ -1,20 +1,21 @@
 // main.ts
 import { ipcMain } from "electron";
-import { getFirstUser, initializeDatabase, isDatabaseInitialized } from '../../database';
+import { AppDataSource } from "../../database/db.js";
+import {User} from '../../database/entities/user.js'
 
 export function registerIsFirstTimeHandler() {
     ipcMain.handle("isFirstTime", async () => {
         try {
             console.log('IPC isFirstTime called');
             
-            // Ensure database is initialized
-            if (!isDatabaseInitialized()) {
-                console.log('Database not initialized, initializing now...');
-                initializeDatabase();
+            // Check if database is initialized
+            if (!AppDataSource.isInitialized) {
+                console.log('Database not initialized yet');
+                return true; // assume first time if DB not ready
             }
             
-            const user = getFirstUser();
-            const isFirstTime = user === null;
+            const users = await AppDataSource.getRepository(User).find();
+            const isFirstTime = users.length === 0;
             console.log(`First time check result: ${isFirstTime}`);
             return isFirstTime; // true = first time setup needed
         } catch (err) {
