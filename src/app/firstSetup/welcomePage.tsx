@@ -3,7 +3,7 @@ import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} f
 import {Input} from "../../components/ui/input"
 import {Label} from "../../components/ui/label"
 import {Button} from "../../components/ui/button"
-import {Alert, AlertDescription, AlertTitle} from "../../components/ui/alert"
+import {Alert, AlertDescription } from "../../components/ui/alert"
 import {motion} from "motion/react"
 import Confetti from 'react-confetti'
 import {useWindowSize} from 'react-use'
@@ -139,7 +139,6 @@ function WelcomePage() {
                         {isError && (
                             <div className="px-6 pb-4">
                                 <Alert variant="destructive">
-                                    <AlertTitle>Error</AlertTitle>
                                     <AlertDescription>{message}</AlertDescription>
                                 </Alert>
                             </div>
@@ -159,20 +158,20 @@ function WelcomePage() {
                                     form="login-form"
                                     className="w-full"
                                 >
-                                    Login
+                                    Create Account
                                 </Button>
                             </motion.div>
 
-                            <motion.div
-                                // disable it for now
-                                // whileHover={{ scale: 1.05 }}
-                                // whileTap={{ scale: 1.0 }}
-                                className="w-full"
-                            >
-                                <Button type="button" variant="outline" className="w-full" disabled>
-                                    Login with Google (Soon)
-                                </Button>
-                            </motion.div>
+                            {/*<motion.div*/}
+                            {/*    // disable it for now*/}
+                            {/*    // whileHover={{ scale: 1.05 }}*/}
+                            {/*    // whileTap={{ scale: 1.0 }}*/}
+                            {/*    className="w-full"*/}
+                            {/*>*/}
+                            {/*    <Button type="button" variant="outline" className="w-full" disabled>*/}
+                            {/*        Login with Google (Soon)*/}
+                            {/*    </Button>*/}
+                            {/*</motion.div>*/}
                         </CardFooter>
                     </Card>
                 </motion.div>

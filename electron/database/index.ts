@@ -34,7 +34,7 @@ export {
 export {
     createUser,
     getUserById,
-    getUserByEmail,
+    getUserByUsername,
     getFirstUser,
     updateUser,
     deleteUser,

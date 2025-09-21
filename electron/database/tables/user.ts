@@ -4,7 +4,8 @@ import { generateId } from '../utils';
 export interface User {
     id: string;
     name: string;
-    email: string;
+    username: string;
+    password: string;
     created_at?: string;
     updated_at?: string;
 }
@@ -22,7 +23,8 @@ export function createUserTable(): void {
         CREATE TABLE users (
             id TEXT PRIMARY KEY,
             name TEXT NOT NULL,
-            email TEXT NOT NULL UNIQUE,
+            username TEXT NOT NULL UNIQUE,
+            password TEXT NOT NULL,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
             updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )
@@ -40,11 +42,11 @@ export function createUserTable(): void {
 export function createUser(userData: Omit<User, 'id' | 'created_at' | 'updated_at'>): User {
     const id = generateId();
     const query = `
-        INSERT INTO users (id, name, email)
-        VALUES (?, ?, ?)
+        INSERT INTO users (id, name, username, password)
+        VALUES (?, ?, ?, ?)
     `;
     
-    executeRun(query, [id, userData.name, userData.email]);
+    executeRun(query, [id, userData.name, userData.username, userData.password]);
     
     const createdUser = getUserById(id);
     if (!createdUser) {
@@ -66,13 +68,13 @@ export function getUserById(id: string): User | null {
 }
 
 /**
- * Get user by email
- * @param email User email
+ * Get user by username
+ * @param username User username
  * @returns User or null if not found
  */
-export function getUserByEmail(email: string): User | null {
-    const query = 'SELECT * FROM users WHERE email = ?';
-    const result = executeQuerySingle(query, [email]);
+export function getUserByUsername(username: string): User | null {
+    const query = 'SELECT * FROM users WHERE username = ?';
+    const result = executeQuerySingle(query, [username]);
     return result || null;
 }
 
@@ -110,9 +112,9 @@ export function updateUser(id: string, userData: Partial<Omit<User, 'id' | 'crea
         values.push(userData.name);
     }
     
-    if (userData.email !== undefined) {
-        fields.push('email = ?');
-        values.push(userData.email);
+    if (userData.username !== undefined) {
+        fields.push('username = ?');
+        values.push(userData.username);
     }
     
     if (fields.length === 0) {
@@ -157,7 +159,7 @@ export default {
     createUserTable,
     createUser,
     getUserById,
-    getUserByEmail,
+    getUserByUsername,
     getAllUsers,
     getFirstUser,
     updateUser,
