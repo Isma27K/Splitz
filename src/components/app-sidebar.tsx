@@ -10,7 +10,6 @@ import {
   Settings2,
   SquareTerminal,
 } from "lucide-react"
-import { Link } from "react-router-dom"
 
 import { NavMain } from "./nav-main"
 import { NavProjects } from "./nav-projects"
@@ -30,92 +29,92 @@ import splitzIcon from "@/assets/splitz.ico";
 const data = {
   user: {
     name: "isma",
-    email: "84092890adl",
-    avatar: "https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/anime_spirited_away_no_face_nobody-512.png",
+    email: "",
+    avatar: "https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/bear_russian_animal_avatar-256.png",
   },
   navMain: [
     {
       title: "Playground",
-      url: "/dashboard",
+      url: "#",
       icon: SquareTerminal,
       isActive: true,
       items: [
         {
           title: "History",
-          url: "/dashboard",
+          url: "#",
         },
         {
           title: "Starred",
-          url: "/dashboard",
+          url: "#",
         },
         {
           title: "Settings",
-          url: "/dashboard",
+          url: "#",
         },
       ],
     },
     {
       title: "Models",
-      url: "/dashboard",
+      url: "#",
       icon: Bot,
       items: [
         {
           title: "Genesis",
-          url: "/dashboard",
+          url: "#",
         },
         {
           title: "Explorer",
-          url: "/dashboard",
+          url: "#",
         },
         {
           title: "Quantum",
-          url: "/dashboard",
+          url: "#",
         },
       ],
     },
     {
       title: "Documentation",
-      url: "/dashboard",
+      url: "#",
       icon: BookOpen,
       items: [
         {
           title: "Introduction",
-          url: "/dashboard",
+          url: "#",
         },
         {
           title: "Get Started",
-          url: "/dashboard",
+          url: "#",
         },
         {
           title: "Tutorials",
-          url: "/dashboard",
+          url: "#",
         },
         {
           title: "Changelog",
-          url: "/dashboard",
+          url: "#",
         },
       ],
     },
     {
       title: "Settings",
-      url: "/dashboard",
+      url: "#",
       icon: Settings2,
       items: [
         {
           title: "General",
-          url: "/dashboard",
+          url: "#",
         },
         {
           title: "Team",
-          url: "/dashboard",
+          url: "#",
         },
         {
           title: "Billing",
-          url: "/dashboard",
+          url: "#",
         },
         {
           title: "Limits",
-          url: "/dashboard",
+          url: "#",
         },
       ],
     },
@@ -123,29 +122,29 @@ const data = {
   navSecondary: [
     {
       title: "Support",
-      url: "/dashboard",
+      url: "#",
       icon: LifeBuoy,
     },
     {
       title: "Feedback",
-      url: "/dashboard",
+      url: "#",
       icon: Send,
     },
   ],
   projects: [
     {
       name: "Design Engineering",
-      url: "/dashboard",
+      url: "#",
       icon: Frame,
     },
     {
       name: "Sales & Marketing",
-      url: "/dashboard",
+      url: "#",
       icon: PieChart,
     },
     {
       name: "Travel",
-      url: "/dashboard",
+      url: "#",
       icon: Map,
     },
   ],
@@ -157,16 +156,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
-              <Link to="/dashboard">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                  <img src={splitzIcon} alt="app icon" />
-                </div>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">Splitz</span>
-                  <span className="truncate text-xs">alpha</span>
-                </div>
-              </Link>
+            <SidebarMenuButton size="lg">
+              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                <img src={splitzIcon} alt="app icon" />
+              </div>
+              <div className="grid flex-1 text-left text-sm leading-tight">
+                <span className="truncate font-semibold">Splitz</span>
+                <span className="truncate text-xs">alpha</span>
+              </div>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

@@ -1,7 +1,7 @@
 "use client"
 
 import { ChevronRight, type LucideIcon } from "lucide-react"
-import { Link } from "react-router-dom"
+import { useDashboard } from "../app/dashboard/dashboard.page"
 
 import {
   Collapsible,
@@ -34,6 +34,20 @@ export function NavMain({
     }[]
   }[]
 }) {
+  const { setActiveComponent, setBreadcrumbTitle, activeComponent } = useDashboard()
+
+  const handleItemClick = (item: { title: string; url: string }) => {
+    const componentKey = item.title.toLowerCase()
+    setActiveComponent(componentKey)
+    setBreadcrumbTitle(item.title)
+  }
+
+  const handleSubItemClick = (subItem: { title: string; url: string }) => {
+    const componentKey = subItem.title.toLowerCase()
+    setActiveComponent(componentKey)
+    setBreadcrumbTitle(subItem.title)
+  }
+
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Platform</SidebarGroupLabel>
@@ -41,11 +55,13 @@ export function NavMain({
         {items.map((item) => (
           <Collapsible key={item.title} asChild defaultOpen={item.isActive}>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild tooltip={item.title}>
-                <Link to={item.url}>
-                  <item.icon />
-                  <span>{item.title}</span>
-                </Link>
+              <SidebarMenuButton 
+                tooltip={item.title}
+                onClick={() => handleItemClick(item)}
+                isActive={activeComponent === item.title.toLowerCase()}
+              >
+                <item.icon />
+                <span>{item.title}</span>
               </SidebarMenuButton>
               {item.items?.length ? (
                 <>
@@ -59,10 +75,11 @@ export function NavMain({
                     <SidebarMenuSub>
                       {item.items?.map((subItem) => (
                         <SidebarMenuSubItem key={subItem.title}>
-                          <SidebarMenuSubButton asChild>
-                            <Link to={subItem.url}>
-                              <span>{subItem.title}</span>
-                            </Link>
+                          <SidebarMenuSubButton 
+                            onClick={() => handleSubItemClick(subItem)}
+                            isActive={activeComponent === subItem.title.toLowerCase()}
+                          >
+                            <span>{subItem.title}</span>
                           </SidebarMenuSubButton>
                         </SidebarMenuSubItem>
                       ))}
