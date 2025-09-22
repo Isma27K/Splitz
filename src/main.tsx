@@ -12,18 +12,6 @@ import WelcomePage from "./app/firstSetup/welcomePage.tsx";
 import {ThemeProvider} from "./components/theme-provider.tsx"; // PascalCase
 //========================
 
-declare global {
-    interface Window {
-        auth: {
-            isFirstTime: () => Promise<boolean>;
-            createUser: (
-                name: string,
-                password: string
-            ) => Promise<{ success: boolean; userId?: number; error?: string }>;
-        };
-    }
-}
-
 
 function App() {
     const [loading, setLoading] = useState(true);

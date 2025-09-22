@@ -1,24 +1,38 @@
-import { ipcMain } from "electron";
-import { AppDataSource } from "../../database/db.js";
-import { User } from "../../database/entities/user.js";
+import {ipcMain} from "electron";
+import {AppDataSource} from "../../database/db.js";
+import {User} from "../../database/entities/user.js";
+import {hashText, verifyPassword} from "../../utils/bcrypt.ts";
 
 export function registerAuthHandlers() {
-    ipcMain.on("login", async (_event, { email, password }) => {
-        console.log("[AUTH] Login received:", email, password);
+    ipcMain.handle("login", async (_event, { username, password }): Promise<boolean> => {
+        console.log("[AUTH] Login received:", username, password);
         try {
             if (!AppDataSource.isInitialized) {
                 console.error("Database not initialized");
-                return;
+                return false;
             }
-            
+
             // For now, just log the attempt - you can add proper authentication later
             const userRepository = AppDataSource.getRepository(User);
-            const users = await userRepository.find();
-            console.log(`[AUTH] Found ${users.length} users in database`);
-            
-            // TODO: Add proper password hashing and verification
+
+            // kill switch
+            const allUser = await userRepository.find()
+            if (allUser.length > 1) {
+                console.error("[AUTH] Multiple users found! Refusing login.");
+                return false;
+            }
+
+            const user = await userRepository.findOne({where : { username: username }});
+            if(user) {
+                return await verifyPassword(password, user.password);
+            }
+            else {
+                return false;
+            }
+
         } catch (error) {
             console.error("[AUTH] Login error:", error);
+            return false;
         }
     });
 
@@ -44,8 +58,9 @@ export function registerAuthHandlers() {
             // check if there is existing user
             if (user.length === 0) {
                 const user = new User()
+                const hashedPassword = await hashText(password);
                 user.username = name;
-                user.password = password;
+                user.password = hashedPassword;
 
                 await userRepository.save(user);
                 console.log("[AUTH] User created successfully:", user.id);

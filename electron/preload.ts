@@ -11,4 +11,7 @@ contextBridge.exposeInMainWorld("auth", {
   createUser: async (name: string, password: string): Promise<{success: boolean, userId?: number, error?: string}> => {
     return await ipcRenderer.invoke("createUser", { name, password });
   },
+  loginUser: async (username: string, password: string): Promise<boolean> => {
+    return await ipcRenderer.invoke("login", { username, password });
+  }
 })

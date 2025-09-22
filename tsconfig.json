@@ -8,6 +8,10 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
 
+    /* Types */
+    "typeRoots": ["./node_modules/@types", "./types"],
+    "types": [],
+
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
@@ -28,6 +32,10 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src", "electron"],
+  "include": [
+    "src",
+    "electron",
+    "types"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
