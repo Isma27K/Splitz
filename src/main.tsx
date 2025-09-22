@@ -12,6 +12,7 @@ import WelcomePage from "./app/firstSetup/welcomePage.tsx";
 import {ThemeProvider} from "./components/theme-provider.tsx"; // PascalCase
 import LoadingPage  from './components/page-loading.tsx'
 import {Toaster} from "sonner";
+import DashboardPage from "./app/dashboard/dashboard.page.tsx";
 //========================
 
 
@@ -51,13 +52,7 @@ function App() {
                     ) : (
                         <Route path="/" Component={LoginPage} />
                     )}
-                    <Route path="/dashboard" Component={() => {
-                        return (
-                            <div>
-                                dashboard
-                            </div>
-                        )
-                    }} />
+                    <Route path="/dashboard" Component={DashboardPage} />
                 </Routes>
             </HashRouter>
         </>
