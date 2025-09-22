@@ -31,4 +31,6 @@ release
 *.sln
 *.sw?
 
+*.sqlite
+
 /generated/prisma

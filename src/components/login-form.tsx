@@ -4,47 +4,29 @@ import {Button} from "../components/ui/button"
 import {Input} from "../components/ui/input"
 import {Label} from "../components/ui/label"
 import { Loader2Icon } from "lucide-react"
-
-declare global {
-    interface Window {
-        electron: {
-            sendLogin: (email: string, password: string) => Promise<void>
-        }
-    }
-}
+import {useNavigate} from "react-router-dom";
 
 
 export function LoginForm({className, ...props}: React.ComponentProps<"form">) {
 
     const [isLoading, setIsLoading] = useState(false)
-    const [email, setEmail] = useState<string>("")
+    const [username, setUsername] = useState<string>("")
     const [password, setPassword] = useState<string>("")
+    const nav = useNavigate()
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault() // Prevent immediate submission
         setIsLoading(true)
 
-        // Add delay before form submission
-        // await delay(2000); // 2 second delay
+        // await window.electron.sendLogin(username, password)
+        const result = await window.auth.loginUser(username, password)
 
-        await window.electron.sendLogin(email, password)
+        console.log(result)
 
-        // // Now manually submit the form after delay
-        // const form = e.target as HTMLFormElement;
-        // const formData = new FormData(form);
-        //
-        // // Submit to your action URL
-        // try {
-        //     const response = await fetch(form.action, {
-        //         method: form.method,
-        //         body: formData
-        //     });
-        //     console.log("Form submitted successfully", response);
-        // } catch (error) {
-        //     console.error("Form submission error:", error);
-        // }
+        if(result) {
+            nav("/dashboard")
+        }
 
-        // Reset loading state
         setIsLoading(false)
     }
 
@@ -53,19 +35,18 @@ export function LoginForm({className, ...props}: React.ComponentProps<"form">) {
             <div className="flex flex-col items-center gap-2 text-center">
                 <h1 className="text-2xl font-bold">Login to your account</h1>
                 <p className="text-muted-foreground text-sm text-balance">
-                    Enter your email below to login to your account
+                    Enter your username below to login to your account
                 </p>
             </div>
             <div className="grid gap-6">
                 <div className="grid gap-3">
-                    <Label htmlFor="email">Email</Label>
+                    <Label htmlFor="username">Username</Label>
                     <Input
-                        id="email"
-                        name="email"
-                        type="email"
-                        placeholder="abc@gmail.com"
-                        value={email}
-                        onChange={e => setEmail(e.target.value)}
+                        id="username"
+                        name="username"
+                        type=""
+                        value={username}
+                        onChange={e => setUsername(e.target.value)}
                         tabIndex={1}
                         required
                         disabled={isLoading}
@@ -74,13 +55,13 @@ export function LoginForm({className, ...props}: React.ComponentProps<"form">) {
                 <div className="grid gap-3">
                     <div className="flex items-center">
                         <Label htmlFor="password">Password</Label>
-                        <a
-                            href="#"
-                            className="ml-auto text-sm underline-offset-4 hover:underline"
-                            tabIndex={4}
-                        >
-                            Forgot your password?
-                        </a>
+                        {/*<a*/}
+                        {/*    href="#"*/}
+                        {/*    className="ml-auto text-sm underline-offset-4 hover:underline"*/}
+                        {/*    tabIndex={4}*/}
+                        {/*>*/}
+                        {/*    Forgot your password?*/}
+                        {/*</a>*/}
                     </div>
                     <Input
                         id="password"
@@ -136,12 +117,12 @@ export function LoginForm({className, ...props}: React.ComponentProps<"form">) {
                     Login with Google
                 </Button>
             </div>
-            <div className="text-center text-sm">
-                Don&apos;t have an account?{" "}
-                <a href="#" className="underline underline-offset-4" tabIndex={6}>
-                    Sign up
-                </a>
-            </div>
+            {/*<div className="text-center text-sm">*/}
+            {/*    Don&apos;t have an account?{" "}*/}
+            {/*    <a href="#" className="underline underline-offset-4" tabIndex={6}>*/}
+            {/*        Sign up*/}
+            {/*    </a>*/}
+            {/*</div>*/}
         </form>
     )
 }

@@ -5,6 +5,12 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+
+    /* Types */
+    "typeRoots": ["./node_modules/@types", "./types"],
+    "types": [],
 
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -26,6 +32,10 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src", "electron"],
+  "include": [
+    "src",
+    "electron",
+    "types"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
