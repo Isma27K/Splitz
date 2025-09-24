@@ -28,22 +28,22 @@ export function NavProjects({
     icon: LucideIcon
   }[]
 }) {
-  const { setActiveComponent, setBreadcrumbTitle, activeComponent } = useDashboard()
+  const { setActiveComponent, activeComponent } = useDashboard()
 
   const handleProjectClick = (project: { name: string; url: string }) => {
-    setActiveComponent('projects')
-    setBreadcrumbTitle(`Projects - ${project.name}`)
+    setActiveComponent(project.name)
+    // setBreadcrumbTitle(`Projects - ${project.name}`)
   }
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-      <SidebarGroupLabel>Projects</SidebarGroupLabel>
+      <SidebarGroupLabel>Projects (Soon)</SidebarGroupLabel>
       <SidebarMenu>
         {projects.map((item) => (
           <SidebarMenuItem key={item.name}>
             <SidebarMenuButton 
               onClick={() => handleProjectClick(item)}
-              isActive={activeComponent === 'projects'}
+              isActive={activeComponent === item.name}
             >
               <item.icon />
               <span>{item.name}</span>
@@ -55,6 +55,8 @@ export function NavProjects({
                   <span className="sr-only">More</span>
                 </SidebarMenuAction>
               </DropdownMenuTrigger>
+
+              {/*Dropdown menu*/}
               <DropdownMenuContent
                 className="w-48 rounded-lg"
                 side="bottom"
@@ -74,15 +76,17 @@ export function NavProjects({
                   <span>Delete Project</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
+
+
             </DropdownMenu>
           </SidebarMenuItem>
         ))}
-        <SidebarMenuItem>
-          <SidebarMenuButton className="text-sidebar-foreground/70">
-            <MoreHorizontal className="text-sidebar-foreground/70" />
-            <span>More</span>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
+        {/*<SidebarMenuItem>*/}
+        {/*  <SidebarMenuButton className="text-sidebar-foreground/70">*/}
+        {/*    <MoreHorizontal className="text-sidebar-foreground/70" />*/}
+        {/*    <span>More</span>*/}
+        {/*  </SidebarMenuButton>*/}
+        {/*</SidebarMenuItem>*/}
       </SidebarMenu>
     </SidebarGroup>
   )

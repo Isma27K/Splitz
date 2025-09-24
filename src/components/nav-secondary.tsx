@@ -20,12 +20,12 @@ export function NavSecondary({
     icon: LucideIcon
   }[]
 } & React.ComponentPropsWithoutRef<typeof SidebarGroup>) {
-  const { setActiveComponent, setBreadcrumbTitle, activeComponent } = useDashboard()
+  const { setActiveComponent, activeComponent } = useDashboard()
 
   const handleItemClick = (item: { title: string; url: string }) => {
     const componentKey = item.title.toLowerCase()
     setActiveComponent(componentKey)
-    setBreadcrumbTitle(item.title)
+    // setBreadcrumbTitle(item.title)
   }
 
   return (

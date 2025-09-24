@@ -14,6 +14,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "./ui/avatar"
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,12 +24,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu"
+
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
 } from "./ui/sidebar"
+import {useNavigate} from "react-router-dom";
 
 export function NavUser({
   user,
@@ -40,6 +43,7 @@ export function NavUser({
   }
 }) {
   const { isMobile } = useSidebar()
+  const nav = useNavigate()
 
   return (
     <SidebarMenu>
@@ -102,7 +106,9 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => {
+              nav("/")
+            }}>
               <LogOut />
               Log out
             </DropdownMenuItem>
