@@ -1,14 +1,11 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
-import { User } from "./entities/user.js";
 import path from "node:path";
-// import { fileURLToPath } from "node:url";
-// import { dirname } from "node:path";
 import {app} from "electron";
-
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = dirname(__filename);
-
+import { User } from "./entities/user.js";
+import {Record} from "./entities/record.ts";
+import {Commitment} from "./entities/commitment.ts";
+import {Account} from "./entities/account.ts";
 
 
 const isDev = process.env.NODE_ENV === "development"
@@ -22,7 +19,7 @@ export const AppDataSource = new DataSource({
     database: dbPath,
     synchronize: true,
     logging: isDev,
-    entities: [User],
+    entities: [User, Record, Commitment, Account],
     migrations: [
         // migrationsPath,
     ],
