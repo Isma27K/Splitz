@@ -15,7 +15,7 @@ export class User {
     income!: number;
 
     @Column("date")
-    payDate!: Date;
+    payDate!: number;
 
     @CreateDateColumn({ type: "datetime" })
     createdAt!: Date;

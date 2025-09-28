@@ -5,7 +5,9 @@ declare global {
             isFirstTime: () => Promise<boolean>;
             createUser: (
                 name: string,
-                password: string
+                password: string,
+                income: number,
+                paydate: number
             ) => Promise<{ success: boolean; userId?: number; error?: string }>;
             loginUser: (
                 username: string,

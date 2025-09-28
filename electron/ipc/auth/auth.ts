@@ -43,9 +43,9 @@ export function registerAuthHandlers() {
 
     // Handler for creating first user during setup
 
-    ipcMain.handle("createUser", async (_event, { name, password }) => {
+    ipcMain.handle("createUser", async (_event, { name, password, income, paydate }) => {
         try {
-            console.log("[AUTH] Creating user:", name, password);
+            console.log("[AUTH] Creating user:", name, password, income, paydate);
             
             if (!AppDataSource.isInitialized) {
                 throw new Error("Database not initialized");
@@ -61,6 +61,8 @@ export function registerAuthHandlers() {
                 const hashedPassword = await hashText(password);
                 user.username = name;
                 user.password = hashedPassword;
+                user.income = income;
+                user.payDate = paydate;
 
                 await userRepository.save(user);
                 console.log("[AUTH] User created successfully:", user.id);
