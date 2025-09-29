@@ -5,54 +5,37 @@
  * Created: 9/28/2025 11:41 PM
  */
 
-import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table"
-import {Button} from "@/components/ui/button"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import TableRecordComponent from "@/app/asset/TableRecord.component.tsx";
+import AssetSheet from "@/app/asset/Sheet.component.tsx";
 
 
 function AssetPage() {
+
+
     return (
         <div className="m-4">
 
+            <AssetSheet />
+
+            <Tabs defaultValue="pocket_money" className="w-full my-3">
+                <TabsList className="bg-[lightgray]">
+                    <TabsTrigger value="pocket_money">Pocket Money</TabsTrigger>
+                    <TabsTrigger value="short_term">Short Term</TabsTrigger>
+                    <TabsTrigger value="long_term">Long Term</TabsTrigger>
+                </TabsList>
 
 
-
-            <div className="overflow-x-auto rounded-lg border">
-                <Table className="min-w-[600px]">
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead className="w-[50px] text-center">Id</TableHead>
-                            <TableHead>Account Name</TableHead>
-                            <TableHead>Type</TableHead>
-                            <TableHead className="text-center">Created At</TableHead>
-                            <TableHead className="text-center">Updated At</TableHead>
-                            <TableHead className="text-center w-[120px]">Amount</TableHead>
-                            <TableHead className="text-center w-[100px]">Action</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        <TableRow>
-                            <TableCell className="text-center text-muted-foreground text-sm">1.</TableCell>
-                            <TableCell className="font-medium">Bank Rakyat</TableCell>
-                            <TableCell>Pocket Money</TableCell>
-                            <TableCell className="text-center">12/9/2025</TableCell>
-                            <TableCell className="text-center">29/9/2025</TableCell>
-                            <TableCell className="text-center">RM 409.63</TableCell>
-                            <TableCell className="text-center">
-                                <Button size="sm">Action</Button>
-                            </TableCell>
-                        </TableRow>
-                    </TableBody>
-                    <TableCaption className="pb-3">A list of your account.</TableCaption>
-                </Table>
-            </div>
+                <TabsContent value="pocket_money">
+                    <TableRecordComponent id={"1"} type={"Pocket Money"} />
+                </TabsContent>
+                <TabsContent value="short_term">
+                    <TableRecordComponent id={"2"} type={"Short Term"} />
+                </TabsContent>
+                <TabsContent value="long_term">
+                    <TableRecordComponent id={"3"} type={"Long Term"} />
+                </TabsContent>
+            </Tabs>
         </div>
     )
 }

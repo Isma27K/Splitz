@@ -59,7 +59,6 @@ const componentMap: Record<string, React.ComponentType> = {
     'dashboard': mainDashboard,
 
     // management
-
     'Asset': AssetPage
 }
 
