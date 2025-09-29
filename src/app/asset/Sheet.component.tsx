@@ -11,15 +11,22 @@ import {Separator} from "@/components/ui/separator.tsx";
 import {Label} from "@/components/ui/label.tsx";
 import {Input} from "@/components/ui/input.tsx";
 import { useState } from "react";
+import {AccountType} from "../../../electron/database/entities/enum/account_type.ts";
 
 
 function AssetSheet() {
+    const [name, setName] = useState("");
+    const [type, setType] = useState("");
     const [proportion, setProportion] = useState<number | ''>('')
     const [open, setOpen] = useState(false)
 
-    const handleSave = () => {
+    const handleCreate = async () => {
         // validate and save logic here...
         console.log("Saving proportion:", proportion)
+
+        const result = await window.account.createAccount(name, type, Number(proportion));
+
+        console.log(result);
 
         // ✅ close sheet
         setOpen(false)
@@ -45,19 +52,22 @@ function AssetSheet() {
                     <form className="flex-1 space-y-4 overflow-y-auto p-1">
                         <div className="space-y-2">
                             <Label htmlFor="acc_name">Account Name</Label>
-                            <Input id="acc_name" type="text" required />
+                            <Input id="acc_name" type="text" value={name} onChange={e => setName(e.target.value)} required />
                         </div>
 
                         <div className="space-y-2">
                             <Label>Account Type</Label>
-                            <Select>
+                            <Select
+                                value={type}                // bind state
+                                onValueChange={setType}     // update state when user selects
+                            >
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder="Select type" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="pocket">Pocket Money</SelectItem>
-                                    <SelectItem value="savings">Savings</SelectItem>
-                                    <SelectItem value="investment">Investment</SelectItem>
+                                    <SelectItem value={AccountType.POCKET_MONEY}>Pocket Money</SelectItem>
+                                    <SelectItem value={AccountType.SHORT_TERM}>Short Term</SelectItem>
+                                    <SelectItem value={AccountType.LONG_TERM}>Long Term</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
@@ -96,8 +106,8 @@ function AssetSheet() {
 
                     {/* Save button pinned bottom */}
                     <div className="mt-auto pt-4">
-                        <Button type="button" className="w-full" onClick={handleSave}>
-                            Save
+                        <Button type="button" className="w-full" onClick={handleCreate}>
+                            Create
                         </Button>
                     </div>
                 </SheetContent>

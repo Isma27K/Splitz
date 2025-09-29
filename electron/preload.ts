@@ -15,3 +15,9 @@ contextBridge.exposeInMainWorld("auth", {
     return await ipcRenderer.invoke("login", { username, password });
   }
 })
+
+contextBridge.exposeInMainWorld("account", {
+  createAccount: async (name: string, type: string, proportion: number): Promise<boolean> => {
+    return await ipcRenderer.invoke("createAccount", { name, type, proportion });
+  }
+})

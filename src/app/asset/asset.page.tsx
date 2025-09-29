@@ -11,20 +11,20 @@ import AssetSheet from "@/app/asset/Sheet.component.tsx";
 
 
 function AssetPage() {
-
-
     return (
         <div className="m-4">
-
-            <AssetSheet />
-
             <Tabs defaultValue="pocket_money" className="w-full my-3">
-                <TabsList className="bg-[lightgray]">
-                    <TabsTrigger value="pocket_money">Pocket Money</TabsTrigger>
-                    <TabsTrigger value="short_term">Short Term</TabsTrigger>
-                    <TabsTrigger value="long_term">Long Term</TabsTrigger>
-                </TabsList>
+                {/* Flex row for tabs + button */}
+                <div className="flex items-center justify-between">
+                    <TabsList className="bg-[lightgray]">
+                        <TabsTrigger value="pocket_money">Pocket Money</TabsTrigger>
+                        <TabsTrigger value="short_term">Short Term</TabsTrigger>
+                        <TabsTrigger value="long_term">Long Term</TabsTrigger>
+                    </TabsList>
 
+                    {/* Button on the right */}
+                    <AssetSheet />
+                </div>
 
                 <TabsContent value="pocket_money">
                     <TableRecordComponent id={"1"} type={"Pocket Money"} />
@@ -39,6 +39,7 @@ function AssetPage() {
         </div>
     )
 }
+
 
 
 

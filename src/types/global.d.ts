@@ -13,7 +13,14 @@ declare global {
                 username: string,
                 password: string,
             ) => Promise<boolean>;
-        };
+        },
+        account: {
+            createAccount: (
+                name: string,
+                accountType: string,
+                proportion: number
+            ) => Promise<boolean>
+        }
     }
 }
 

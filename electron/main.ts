@@ -14,6 +14,7 @@ import {registerIsFirstTimeHandler} from "./ipc/auth/firstLogin.js";
 
 // ===== import database ========
 import { AppDataSource } from "./database/db.js";
+import {registerAssetCreation} from "./ipc/asset/registerAssetCreation.ts";
 // ======= end database =========
 
 
@@ -149,4 +150,5 @@ app.whenReady().then(async () => {
   // ======= register IPC here =============
   registerAuthHandlers()
   registerIsFirstTimeHandler()
+  registerAssetCreation()
 })
