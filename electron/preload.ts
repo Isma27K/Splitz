@@ -1,5 +1,6 @@
-import { contextBridge, ipcRenderer } from 'electron'
+import {contextBridge, ipcRenderer} from 'electron'
 import {AccountDTO} from "./type/Entity/account.dto.ts";
+
 contextBridge.exposeInMainWorld("electron", {
   sendLogin: (email: string, password: string) => ipcRenderer.send("login", { email, password }),
 })
@@ -23,5 +24,8 @@ contextBridge.exposeInMainWorld("account", {
   getAllAccount: async (): Promise<AccountDTO[]> => {
     console.log("GetAllAccount");
     return await ipcRenderer.invoke("getAllAccount");
+  },
+  createRecord: async (name: string, description: string, sum: number, accountId: number): Promise<boolean> => {
+    return await ipcRenderer.invoke("createRecord", { name, description, sum, accountId });
   }
 })

@@ -30,7 +30,7 @@ export class Record {
     @Column("text",{nullable:true})
     description: string | undefined;
 
-    @Column("float")
+    @Column("decimal", { precision: 15, scale: 2 })
     sum!: number;
 
     @CreateDateColumn({ type: "datetime" })

@@ -23,7 +23,7 @@ export class Account {
     })
     type!: AccountType;
 
-    @Column("float")
+    @Column("decimal", { precision: 15, scale: 2 })
     sum!: number;
 
     @Column("int", { default: 0 })

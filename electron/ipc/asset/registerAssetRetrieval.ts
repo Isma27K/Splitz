@@ -12,19 +12,11 @@ export function RegisterAssetRetrieval() {
     ipcMain.handle('getAllAccount', async ()=> {
         try {
             const accountRepository = AppDataSource.getRepository(Account);
-            const accounts = await accountRepository.find();
+            const accounts = await accountRepository.find({
+                relations: ['records']  // Add this to load the records relation
+            });
 
             console.log(accounts);
-
-            // return accounts.map(acc => ({
-            //     id: acc.id,
-            //     name: acc.name,
-            //     type: acc.type,
-            //     sum: acc.sum,
-            //     proportion: acc.proportion,
-            //     createAt: acc.createAt.toISOString(),
-            //     updatedAt: acc.updatedAt.toISOString(),
-            // }));
 
             return accounts;
         }

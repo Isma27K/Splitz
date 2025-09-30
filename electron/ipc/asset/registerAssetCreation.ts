@@ -8,6 +8,7 @@ import {ipcMain} from "electron";
 import {AppDataSource} from "../../database/db.js";
 import {Account} from "../../database/entities/account.ts";
 import {AccountType} from "../../database/entities/enum/account_type.ts";
+import {Record} from "../../database/entities/record.ts";
 
 
 export function registerAssetCreation() {
@@ -42,4 +43,44 @@ export function registerAssetCreation() {
             return false; // Return false on error instead of true
         }
     })
+
+    ipcMain.handle('createRecord', async (_event, { name, description, sum, accountId }): Promise<boolean> => {
+        try {
+            const parsedSum = typeof sum === "string" ? parseFloat(sum) : sum;
+
+            console.log("[ACCOUNT] asset creation received:", name, description, parsedSum);
+
+            if (isNaN(parsedSum) || parsedSum === 0) {
+                console.error("Invalid sum:", sum);
+                return false;
+            }
+
+            const accountRepository = AppDataSource.getRepository(Account);
+            const recordRepository = AppDataSource.getRepository(Record);
+
+            const account = await accountRepository.findOneBy({ id: accountId });
+            if (!account) {
+                console.error("Account not found:", accountId);
+                return false;
+            }
+
+            const record = recordRepository.create({
+                name,
+                description,
+                sum: parsedSum,
+                account,
+                commitment: null
+            });
+
+            // Save to DB
+            const savedRecord = await recordRepository.save(record);
+
+            console.log("Record saved:", savedRecord);
+            return true;
+        } catch (error) {
+            console.error("[ACCOUNT ERROR]:", error);
+            return false;
+        }
+    });
+
 }

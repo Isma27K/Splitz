@@ -21,8 +21,14 @@ declare global {
                 name: string,
                 accountType: string,
                 proportion: number
-            ) => Promise<boolean>,
+            ) => Promise<boolean>;
             getAllAccount: () => Promise<AccountDTO[]>;
+            createRecord: (
+                name: string,
+                description: string,
+                sum: number,
+                accountId: number
+            ) => Promise<boolean>
         }
     }
 }

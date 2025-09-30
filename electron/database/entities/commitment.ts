@@ -20,7 +20,7 @@ export class Commitment {
     @Column("text", {nullable: true})
     description!: string;
 
-    @Column("float")
+    @Column("decimal", { precision: 15, scale: 2 })
     total!: number;
 
     @Column({

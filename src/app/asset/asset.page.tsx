@@ -7,7 +7,7 @@
 
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs"
 import {Alert, AlertDescription} from "@/components/ui/alert"
-import TableRecordComponent from "@/app/asset/TableRecord.component.tsx";
+// import TableRecordComponent from "@/app/asset/TableRecord.component.tsx";
 import AssetSheet from "@/app/asset/Sheet.component.tsx";
 import {AccountDTO} from '@/types/Entity/account.dto.ts'
 import {useEffect, useState} from "react";
@@ -17,6 +17,7 @@ import {Wallet} from "lucide-react";
 function AssetPage() {
     const [accounts, setAccounts] = useState<AccountDTO[]>([]);
     const [activeTab, setActiveTab] = useState<string | undefined>(undefined);
+    const [activeId, setActiveId] = useState<number>(0);
 
     const fetchAccounts = async () => {
         try {
@@ -25,6 +26,7 @@ function AssetPage() {
             setAccounts(result);
             if (result.length > 0 && !activeTab) {
                 setActiveTab(result[0].name);
+                setActiveId(result[0].id);
             }
         } catch (err) {
             console.error("Failed to fetch accounts:", err);
@@ -45,7 +47,7 @@ function AssetPage() {
                         <>
                             <TabsList className="bg-[lightgray]">
                                 {accounts.map((acc) => (
-                                    <TabsTrigger key={acc.id} value={acc.name}>
+                                    <TabsTrigger key={acc.id} value={acc.name} onClick={() => {setActiveId(acc.id)}}>
                                         {acc.name}
                                     </TabsTrigger>
                                 ))}
@@ -61,12 +63,14 @@ function AssetPage() {
                     )}
 
                     {/* Button on the right */}
-                    <AssetSheet onAccountCreated={fetchAccounts} />
+                    <AssetSheet onAccountCreated={fetchAccounts} accountId={activeId}/>
                 </div>
 
                 {accounts.map((acc) => (
                     <TabsContent value={acc.name} key={acc.id}>
-                        <TableRecordComponent id={String(acc.id)} type={acc.name} />
+                        {/*<TableRecordComponent*/}
+                        {/*    records={}*/}
+                        {/*/>*/}
                     </TabsContent>
                 ))}
             </Tabs>
