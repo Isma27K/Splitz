@@ -11,6 +11,12 @@ export class User {
     @Column("text")
     password!: string;
 
+    @Column("float")
+    income!: number;
+
+    @Column("date")
+    payDate!: number;
+
     @CreateDateColumn({ type: "datetime" })
     createdAt!: Date;
 

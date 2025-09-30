@@ -14,6 +14,8 @@ import {registerIsFirstTimeHandler} from "./ipc/auth/firstLogin.js";
 
 // ===== import database ========
 import { AppDataSource } from "./database/db.js";
+import {registerAssetCreation} from "./ipc/asset/registerAssetCreation.ts";
+import {RegisterAssetRetrieval} from "./ipc/asset/registerAssetRetrieval.ts";
 // ======= end database =========
 
 
@@ -49,7 +51,7 @@ function createWindow() {
     webPreferences: {
       preload: path.join(__dirname, 'preload.mjs'),
     },
-    width: 1300,
+    width: 1400,
     height: 850,
   })
 
@@ -73,6 +75,7 @@ function createWindow() {
   });
 
   // Listen for console messages from renderer
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   win.webContents.on('console-message', (_event, level, message, _line, _sourceId) => {
     console.log(`Renderer console [${level}]:`, message);
   });
@@ -149,4 +152,6 @@ app.whenReady().then(async () => {
   // ======= register IPC here =============
   registerAuthHandlers()
   registerIsFirstTimeHandler()
+  registerAssetCreation()
+  RegisterAssetRetrieval()
 })

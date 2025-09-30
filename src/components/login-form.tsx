@@ -5,6 +5,9 @@ import {Input} from "../components/ui/input"
 import {Label} from "../components/ui/label"
 import { Loader2Icon } from "lucide-react"
 import {useNavigate} from "react-router-dom";
+import { Eye, EyeOff } from "lucide-react"
+import { toast } from "sonner"
+
 
 
 export function LoginForm({className, ...props}: React.ComponentProps<"form">) {
@@ -12,6 +15,7 @@ export function LoginForm({className, ...props}: React.ComponentProps<"form">) {
     const [isLoading, setIsLoading] = useState(false)
     const [username, setUsername] = useState<string>("")
     const [password, setPassword] = useState<string>("")
+    const [show, setShow] = useState(false)
     const nav = useNavigate()
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -25,6 +29,11 @@ export function LoginForm({className, ...props}: React.ComponentProps<"form">) {
 
         if(result) {
             nav("/dashboard")
+        }
+        else {
+            toast.error(
+                "Invalid username or password",
+            )
         }
 
         setIsLoading(false)
@@ -63,16 +72,28 @@ export function LoginForm({className, ...props}: React.ComponentProps<"form">) {
                         {/*    Forgot your password?*/}
                         {/*</a>*/}
                     </div>
-                    <Input
-                        id="password"
-                        name="password"
-                        type="password"
-                        value={password}
-                        onChange={e => setPassword(e.target.value)}
-                        tabIndex={2}
-                        required
-                        disabled={isLoading}
-                    />
+
+                    <div className={cn("relative w-full", className)}>
+
+                        <Input
+                            id="password"
+                            name="password"
+                            type={show ? "text" : "password"}
+                            value={password}
+                            onChange={e => setPassword(e.target.value)}
+                            tabIndex={2}
+                            required
+                            disabled={isLoading}
+                        />
+                        <button
+                            type="button"
+                            onClick={() => setShow((prev) => !prev)}
+                            className="absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground hover:text-foreground"
+                            tabIndex={-1} // so it doesn’t steal focus when tabbing
+                        >
+                            {!show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                        </button>
+                    </div>
                 </div>
                 <Button type="submit" className="w-full" tabIndex={3} disabled={isLoading}>
                     {isLoading && <Loader2Icon className="mr-2 h-4 w-4 animate-spin"/>}

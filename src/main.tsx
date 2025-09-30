@@ -10,6 +10,9 @@ import "./index.css";
 import LoginPage from "./app/Login/Login.page.tsx";
 import WelcomePage from "./app/firstSetup/welcomePage.tsx";
 import {ThemeProvider} from "./components/theme-provider.tsx"; // PascalCase
+import LoadingPage  from './components/page-loading.tsx'
+import {Toaster} from "sonner";
+import DashboardPage from "./app/dashboard/dashboard.page.tsx";
 //========================
 
 
@@ -37,25 +40,23 @@ function App() {
         checkFirstTime();
     }, []);
 
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <LoadingPage />;
 
     return (
-        <HashRouter>
-            <Routes>
-                {firstTime ? (
-                    <Route path="/" Component={WelcomePage} />
-                ) : (
-                    <Route path="/" Component={LoginPage} />
-                )}
-                <Route path="/dashboard" Component={() => {
-                    return (
-                        <div>
-                            dashboard
-                        </div>
-                    )
-                }} />
-            </Routes>
-        </HashRouter>
+        <>
+            <Toaster richColors position="top-right" /> {/*setup Toaster to show toast*/}
+            <HashRouter>
+                <Routes>
+                    {firstTime ? (
+                        <Route path="/" Component={WelcomePage} />
+                    ) : (
+                        <Route path="/" Component={LoginPage} />
+                    )}
+                    <Route path="/dashboard" Component={DashboardPage} />
+                </Routes>
+            </HashRouter>
+        </>
+
     );
 }
 
