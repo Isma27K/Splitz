@@ -12,9 +12,13 @@ import {Label} from "@/components/ui/label.tsx";
 import {Input} from "@/components/ui/input.tsx";
 import { useState } from "react";
 import {AccountType} from "../../../electron/database/entities/enum/account_type.ts";
+import { toast } from "sonner"
 
+type AssetSheetProps = {
+    onAccountCreated?: () => void;
+};
 
-function AssetSheet() {
+function AssetSheet({ onAccountCreated }: AssetSheetProps) {
     const [name, setName] = useState("");
     const [type, setType] = useState("");
     const [proportion, setProportion] = useState<number | ''>('')
@@ -26,10 +30,17 @@ function AssetSheet() {
 
         const result = await window.account.createAccount(name, type, Number(proportion));
 
-        console.log(result);
+        if(result){
+            toast.success("Account created successfully.")
+            onAccountCreated?.();
+            // ✅ close sheet
+            setOpen(false)
+        }
+        else {
+            toast.error("Account created failed")
+        }
 
-        // ✅ close sheet
-        setOpen(false)
+        console.log(result);
     }
     return (
         <div className="my-3 flex justify-end">

@@ -1,4 +1,6 @@
 // types/global.d.ts
+import {AccountDTO} from './Entity/account.dto.ts'
+
 declare global {
     interface Window {
         auth: {
@@ -19,7 +21,8 @@ declare global {
                 name: string,
                 accountType: string,
                 proportion: number
-            ) => Promise<boolean>
+            ) => Promise<boolean>,
+            getAllAccount: () => Promise<AccountDTO[]>;
         }
     }
 }

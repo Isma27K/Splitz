@@ -5,42 +5,73 @@
  * Created: 9/28/2025 11:41 PM
  */
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs"
+import {Alert, AlertDescription} from "@/components/ui/alert"
 import TableRecordComponent from "@/app/asset/TableRecord.component.tsx";
 import AssetSheet from "@/app/asset/Sheet.component.tsx";
+import {AccountDTO} from '@/types/Entity/account.dto.ts'
+import {useEffect, useState} from "react";
+import {Wallet} from "lucide-react";
 
 
 function AssetPage() {
+    const [accounts, setAccounts] = useState<AccountDTO[]>([]);
+    const [activeTab, setActiveTab] = useState<string | undefined>(undefined);
+
+    const fetchAccounts = async () => {
+        try {
+            const result = await window.account.getAllAccount();
+            console.log(result);
+            setAccounts(result);
+            if (result.length > 0 && !activeTab) {
+                setActiveTab(result[0].name);
+            }
+        } catch (err) {
+            console.error("Failed to fetch accounts:", err);
+        }
+    };
+
+    useEffect(() => {
+        fetchAccounts();
+    }, []);
+
     return (
         <div className="m-4">
-            <Tabs defaultValue="pocket_money" className="w-full my-3">
+            <Tabs className="w-full my-3" value={activeTab} onValueChange={setActiveTab}>
+
                 {/* Flex row for tabs + button */}
                 <div className="flex items-center justify-between">
-                    <TabsList className="bg-[lightgray]">
-                        <TabsTrigger value="pocket_money">Pocket Money</TabsTrigger>
-                        <TabsTrigger value="short_term">Short Term</TabsTrigger>
-                        <TabsTrigger value="long_term">Long Term</TabsTrigger>
-                    </TabsList>
+                    {accounts.length > 0 ? (
+                        <>
+                            <TabsList className="bg-[lightgray]">
+                                {accounts.map((acc) => (
+                                    <TabsTrigger key={acc.id} value={acc.name}>
+                                        {acc.name}
+                                    </TabsTrigger>
+                                ))}
+                            </TabsList>
+                        </>
+                    ):(
+                        <Alert className="flex-1 mr-4">
+                            <Wallet className="h-4 w-4" />
+                            <AlertDescription>
+                                No accounts found. Create your first account to get started.
+                            </AlertDescription>
+                        </Alert>
+                    )}
 
                     {/* Button on the right */}
-                    <AssetSheet />
+                    <AssetSheet onAccountCreated={fetchAccounts} />
                 </div>
 
-                <TabsContent value="pocket_money">
-                    <TableRecordComponent id={"1"} type={"Pocket Money"} />
-                </TabsContent>
-                <TabsContent value="short_term">
-                    <TableRecordComponent id={"2"} type={"Short Term"} />
-                </TabsContent>
-                <TabsContent value="long_term">
-                    <TableRecordComponent id={"3"} type={"Long Term"} />
-                </TabsContent>
+                {accounts.map((acc) => (
+                    <TabsContent value={acc.name} key={acc.id}>
+                        <TableRecordComponent id={String(acc.id)} type={acc.name} />
+                    </TabsContent>
+                ))}
             </Tabs>
         </div>
     )
 }
-
-
-
 
 export default AssetPage;

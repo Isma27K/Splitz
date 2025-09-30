@@ -36,7 +36,6 @@ export function registerAssetCreation() {
             console.log(result);
 
             return true;
-
         }
         catch(error) {
             console.log("[ACCOUNT ERROR]:", error);
