@@ -16,6 +16,7 @@ import {
 import {Separator} from '../../components/ui/separator.tsx'
 import mainDashboard from "@/components/doashboard/mainDashboard.tsx";
 import AssetPage from "@/app/asset/asset.page.tsx";
+import DeductionPage from "@/app/deduction/deduction.page.tsx";
 
 // Context for managing active component
 interface DashboardContextType {
@@ -59,7 +60,8 @@ const componentMap: Record<string, React.ComponentType> = {
     'dashboard': mainDashboard,
 
     // management
-    'Asset': AssetPage
+    'Asset': AssetPage,
+    'Deduction': DeductionPage
 }
 
 export default function DashboardPage() {

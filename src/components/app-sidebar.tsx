@@ -1,15 +1,8 @@
 import * as React from "react"
 import {
-  // BookOpen,
-  // Bot,
-  // Frame,
-  // LifeBuoy,
-  // Map,
-  // PieChart,
-  // Send,
-  // Settings2,
   ChartCandlestick,
   PiggyBank,
+  TrendingDown
 } from "lucide-react"
 
 import { NavMain } from "./nav-main"
@@ -48,10 +41,6 @@ const data = {
       //     title: "Starred",
       //     url: "#",
       //   },
-      //   {
-      //     title: "Settings",
-      //     url: "#",
-      //   },
       // ],
     },
   ],
@@ -72,13 +61,12 @@ const data = {
       name: "Asset",
       url: "#",
       icon: ChartCandlestick
+    },
+    {
+      name: "Deduction",
+      url: "#",
+      icon: TrendingDown
     }
-
-    // {
-    //   name: "Travel",
-    //   url: "#",
-    //   icon: Map,
-    // },
   ],
 }
 

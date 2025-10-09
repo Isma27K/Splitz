@@ -15,8 +15,6 @@ import { useNavigate } from "react-router-dom";
 import {useState} from "react";
 import {Alert, AlertDescription} from "@/components/ui/alert.tsx";
 
-
-
 function SetupIncome() {
 
     const { income, setIncome, payDate, setPayDate, username, password,  } = useSignUp();
@@ -24,23 +22,28 @@ function SetupIncome() {
 
     const nav = useNavigate()
 
+    const minIncome = 100;
+    const hasPayDate = payDate !== null;
+    const isIncomeValid = typeof income === 'number' && income >= minIncome;
+    const isValid = hasPayDate && isIncomeValid;
+
     const handleSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
 
-        if(payDate == null) {
-            setError('Please pick a date');
+        if(!hasPayDate) {
+            setError('Please pick a payday.');
             return;
         }
 
-        if(income < 100) {
-            setError('Broo, you sure that is your income. i mean im not dumb 🗿');
+        if(!isIncomeValid) {
+            setError(`Income must be at least ${minIncome}.`);
             return;
         }
 
         // Clear any previous errors
         setError('');
 
-        const result = await window.auth.createUser(username, password, income, payDate).then()
+        const result = await window.auth.createUser(username, password, income, payDate!).then()
 
         console.log(result.success)
 
@@ -51,7 +54,6 @@ function SetupIncome() {
         // Handle login logic here
         console.log('Sign Up attempt:', { username, password });
     };
-
 
     return (
         <>
@@ -69,35 +71,32 @@ function SetupIncome() {
             >
                 <Card className="w-full max-w-sm">
                     <CardHeader>
-                        <CardTitle>Lets Get Setup 💰</CardTitle>
+                        <CardTitle>Account Preferences</CardTitle>
                         <CardDescription>
-                            One more thing, we need your income information for calculating purposes 🤣
+                            Tell us your monthly income and payday.
                         </CardDescription>
                     </CardHeader>
+
                     <CardContent>
-                        <form
-                            id="income-form"
-                            onSubmit={handleSubmit}
-                            // onSubmit={(e) => {
-                            //     e.preventDefault(); // 🚫 stops the refresh
-                            //     console.log("fucker hitterr");
-                            // }}
-                        >                            <div className="flex flex-col gap-6">
+                        <form id="income-form" onSubmit={handleSubmit}>
+                            <div className="flex flex-col gap-6">
                                 <div className="grid gap-2">
-                                    <Label htmlFor="income">Income / month (Rm)</Label>
+                                    <Label htmlFor="income">What is your monthly income</Label>
                                     <Input
                                         id="income"
                                         type="number"
-                                        placeholder="Enter your income"
+                                        placeholder={`Enter your income (min ${minIncome})`}
                                         value={income}
                                         onChange={e => setIncome(Number(e.target.value))}
                                         required
                                     />
+                                    <span className="text-xs text-muted-foreground">Minimum {minIncome}.</span>
                                 </div>
 
                                 <div className="grid gap-2">
                                     <Label htmlFor="payDate">What day is your payday</Label>
                                     <DayPicker day={payDate} onDayChange={setPayDate} />
+                                    <span className="text-xs text-muted-foreground">Pick a date.</span>
                                 </div>
                             </div>
                         </form>
@@ -121,6 +120,7 @@ function SetupIncome() {
                                 type="submit"
                                 form="income-form"
                                 className="w-full"
+                                disabled={!isValid}
                             >
                                 Next
                             </Button>

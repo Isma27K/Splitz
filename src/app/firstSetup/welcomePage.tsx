@@ -1,4 +1,4 @@
-import {useState, createContext, useContext} from "react";
+import {useState, createContext, useContext, useEffect} from "react";
 
 import Confetti from 'react-confetti'
 import {useWindowSize} from 'react-use'

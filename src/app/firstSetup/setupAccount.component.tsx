@@ -19,16 +19,27 @@ function SetupAccount() {
     const [cPassword, setCPassword] = useState("");
     const [error, setError] = useState("");
 
+    // Basic validations
+    const isUsernameValid = username.trim().length >= 3;
+    const isPasswordStrong = password.length >= 8;
+    const isMatching = password === cPassword;
+    const isValid = isUsernameValid && isPasswordStrong && isMatching;
+
     const handleNext = (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!username.trim() || !password.trim()) {
-            setError("Please enter a valid username and password.");
+        if (!isUsernameValid) {
+            setError("Username must be at least 3 characters.");
             return;
         }
 
-        if (password !== cPassword) {
-            setError("Passwords don't match");
+        if (!isPasswordStrong) {
+            setError("Password must be at least 8 characters.");
+            return;
+        }
+
+        if (!isMatching) {
+            setError("Passwords don't match.");
             return;
         }
 
@@ -69,7 +80,10 @@ function SetupAccount() {
                                     onChange={e => setUsername(e.target.value)}
                                     required
                                 />
+                                {/* Helper text */}
+                                <span className="text-xs text-muted-foreground">Minimum 3 characters.</span>
                             </div>
+
                             <div className="grid gap-2">
                                 <div className="flex items-center">
                                     <Label htmlFor="password">Password</Label>
@@ -82,6 +96,8 @@ function SetupAccount() {
                                     onChange={e => setPassword(e.target.value)}
                                     required
                                 />
+                                {/* Helper text */}
+                                <span className="text-xs text-muted-foreground">Minimum 8 characters.</span>
                             </div>
 
                             <div className="grid gap-2">
@@ -122,6 +138,7 @@ function SetupAccount() {
                             type="submit"
                             form="login-form"
                             className="w-full"
+                            disabled={!isValid}
                         >
                             Next
                         </Button>

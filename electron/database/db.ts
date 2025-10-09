@@ -6,6 +6,7 @@ import { User } from "./entities/user.js";
 import {Record} from "./entities/record.ts";
 import {Commitment} from "./entities/commitment.ts";
 import {Account} from "./entities/account.ts";
+import {Salary} from "./entities/salary.ts";
 
 
 const isDev = process.env.NODE_ENV === "development"
@@ -19,7 +20,7 @@ export const AppDataSource = new DataSource({
     database: dbPath,
     synchronize: true,
     logging: isDev,
-    entities: [User, Record, Commitment, Account],
+    entities: [User, Record, Commitment, Account, Salary],
     migrations: [
         // migrationsPath,
     ],

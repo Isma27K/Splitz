@@ -7,7 +7,6 @@
 
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs"
 import {Alert, AlertDescription} from "@/components/ui/alert"
-// import TableRecordComponent from "@/app/asset/TableRecord.component.tsx";
 import AssetSheet from "@/app/asset/Sheet.component.tsx";
 import {AccountDTO} from '@/types/Entity/account.dto.ts'
 import {useEffect, useState} from "react";
@@ -17,7 +16,7 @@ import TableRecordComponent from "@/app/asset/TableRecord.component.tsx";
 
 function AssetPage() {
     const [accounts, setAccounts] = useState<AccountDTO[]>([]);
-    const [activeTab, setActiveTab] = useState<string | undefined>(undefined);
+    const [activeTab, setActiveTab] = useState<string>('');
     const [activeId, setActiveId] = useState<number>(0);
 
     const fetchAccounts = async () => {

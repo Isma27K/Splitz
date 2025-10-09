@@ -22,11 +22,6 @@ interface TableRecordProps {
 }
 
 function TableRecordComponent({ records }: TableRecordProps) {
-
-    {
-        console.log(`huhhh : ${records[0].name}`);
-    }
-
     return (
         <div>
             <div className="overflow-x-auto rounded-lg border">
@@ -47,11 +42,11 @@ function TableRecordComponent({ records }: TableRecordProps) {
                         {(records.length > 0) ? (
                             // rec = data ya || idx = index
                             records.map((rec, idx) => (
-                                <TableRow>
+                                <TableRow key={rec.id}>
                                     <TableCell className="text-center text-muted-foreground text-sm">{idx + 1}</TableCell>
-                                    <TableCell className="font-medium">{rec.name}</TableCell>
-                                    <TableCell>{rec.description}</TableCell>
-                                    <TableCell className="text-center">{rec.createAt.getDay()}/{rec.createAt.getMonth()}/{rec.createAt.getFullYear()}</TableCell>
+                                    <TableCell className="font-medium">{rec.name || '-'}</TableCell>
+                                    <TableCell>{rec.description || '-'}</TableCell>
+                                    <TableCell className="text-center">{rec.createAt.getDate()}/{rec.createAt.getMonth() + 1}/{rec.createAt.getFullYear()}</TableCell>
                                     <TableCell className="text-center">Rm {rec.sum}</TableCell>
                                     <TableCell className="text-center">
                                         <DropdownMenu>
