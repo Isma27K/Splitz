@@ -12,6 +12,7 @@ import AssetSheet from "@/app/asset/Sheet.component.tsx";
 import {AccountDTO} from '@/types/Entity/account.dto.ts'
 import {useEffect, useState} from "react";
 import {Wallet} from "lucide-react";
+import TableRecordComponent from "@/app/asset/TableRecord.component.tsx";
 
 
 function AssetPage() {
@@ -68,9 +69,9 @@ function AssetPage() {
 
                 {accounts.map((acc) => (
                     <TabsContent value={acc.name} key={acc.id}>
-                        {/*<TableRecordComponent*/}
-                        {/*    records={}*/}
-                        {/*/>*/}
+                        <TableRecordComponent
+                            records={acc.records}
+                        />
                     </TabsContent>
                 ))}
             </Tabs>

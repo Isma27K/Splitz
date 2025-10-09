@@ -14,5 +14,5 @@ export interface AccountDTO {
     proportion: number;
     createAt: string;   // Dates come over IPC as strings
     updatedAt: string;
-    records: RecordDto;
+    records: RecordDto[];
 }

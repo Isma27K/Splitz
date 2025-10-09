@@ -22,6 +22,11 @@ interface TableRecordProps {
 }
 
 function TableRecordComponent({ records }: TableRecordProps) {
+
+    {
+        console.log(`huhhh : ${records[0].name}`);
+    }
+
     return (
         <div>
             <div className="overflow-x-auto rounded-lg border">
@@ -39,41 +44,43 @@ function TableRecordComponent({ records }: TableRecordProps) {
 
 
                     <TableBody>
-
                         {(records.length > 0) ? (
+                            // rec = data ya || idx = index
+                            records.map((rec, idx) => (
+                                <TableRow>
+                                    <TableCell className="text-center text-muted-foreground text-sm">{idx + 1}</TableCell>
+                                    <TableCell className="font-medium">{rec.name}</TableCell>
+                                    <TableCell>{rec.description}</TableCell>
+                                    <TableCell className="text-center">{rec.createAt.getDay()}/{rec.createAt.getMonth()}/{rec.createAt.getFullYear()}</TableCell>
+                                    <TableCell className="text-center">Rm {rec.sum}</TableCell>
+                                    <TableCell className="text-center">
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <Button variant="outline">
+                                                    ...
+                                                </Button>
+                                            </DropdownMenuTrigger>
+
+                                            <DropdownMenuContent>
+                                                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                                                <DropdownMenuSeparator />
+                                                <DropdownMenuItem>Profile</DropdownMenuItem>
+                                                <DropdownMenuItem>Billing</DropdownMenuItem>
+                                                <DropdownMenuItem>Team</DropdownMenuItem>
+                                                <DropdownMenuItem>Subscription</DropdownMenuItem>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
+
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        ):(
                             <TableRow>
                                 <TableCell colSpan={7} className="h-24 text-center">
                                     <div className="flex flex-col items-center justify-center text-muted-foreground">
                                         <FileX className="h-8 w-8 mb-2" />
                                         <p className="text-sm">No records found</p>
                                     </div>
-                                </TableCell>
-                            </TableRow>
-                        ):(
-                            <TableRow>
-                                <TableCell className="text-center text-muted-foreground text-sm">1</TableCell>
-                                <TableCell className="font-medium">Duit Kereta</TableCell>
-                                <TableCell>Bayar Duit Kereta untuk bulan 10</TableCell>
-                                <TableCell className="text-center">4/10/2025</TableCell>
-                                <TableCell className="text-center">Rm -1000.00</TableCell>
-                                <TableCell className="text-center">
-                                    <DropdownMenu>
-                                        <DropdownMenuTrigger asChild>
-                                            <Button variant="outline">
-                                                ...
-                                            </Button>
-                                        </DropdownMenuTrigger>
-
-                                        <DropdownMenuContent>
-                                            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                                            <DropdownMenuSeparator />
-                                            <DropdownMenuItem>Profile</DropdownMenuItem>
-                                            <DropdownMenuItem>Billing</DropdownMenuItem>
-                                            <DropdownMenuItem>Team</DropdownMenuItem>
-                                            <DropdownMenuItem>Subscription</DropdownMenuItem>
-                                        </DropdownMenuContent>
-                                    </DropdownMenu>
-
                                 </TableCell>
                             </TableRow>
                         )}
